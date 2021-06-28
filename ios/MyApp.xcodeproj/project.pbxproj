@@ -145,7 +145,6 @@
 				C1767E58D2454DD778BDF427 /* Pods-MyApp-MyAppTests.debug.xcconfig */,
 				4E6CB4C13722EC460A9260B4 /* Pods-MyApp-MyAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
