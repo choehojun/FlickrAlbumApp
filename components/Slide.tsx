@@ -11,6 +11,7 @@ const Slide = ({navigation}) => {
   const [url, setUrl] = useState()
   const [flag, setFlag] = useState(false)
   const [idx, setIdx] = useState(0)
+  const [isMounted, setIsMounted] = useState(true)
 
   const isChanged = (val: React.SetStateAction<string>) => {
     const changedTitle = Number(val)
@@ -38,21 +39,29 @@ const Slide = ({navigation}) => {
       Animated.delay(seconds),
       fadeOutAnimation
     ]).start(() => {
-      setIdx(idx + 1)
-      setFlag(!flag)
+      if (isMounted) {
+        setIdx(idx + 1)
+        setFlag(!flag)
+      }
     })
   }
 
   useEffect(() => {
+    setIsMounted(true)
     if(idx >= 20) {
       setIdx(0)
     }
     fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
       .then(response => {return response.json()})
-      .then(j => {setUrl(j.items[idx].media.m)})
+      .then(j => {
+        if (isMounted) {
+          setUrl(j.items[idx].media.m)
+        }
+      })
       .then(() => {
           runAnimation()
       }).catch(() => setFlag(!flag))
+    return () => {setIsMounted(false)}
   }, [flag])
 
   return(
