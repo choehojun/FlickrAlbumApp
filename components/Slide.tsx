@@ -1,14 +1,16 @@
 import React, { useEffect,  useState } from "react";
 import { View, Animated, Button, StyleSheet, Image, Text } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import Imgfile from "../assets/images/ImageForNews_26919_15786618897301054.png.webp";
+//import Imgfile from "../assets/images/ImageForNews_26919_15786618897301054.png.webp";
 
 const Slide = ({navigation}) => {
   const sec = navigation.getParam('sec')
   const [fade] = useState(new Animated.Value(0))
   const [title, setTitle] = useState(String(sec))
   const [seconds, setSeconds] = useState(sec * 1000)
+  const [url, setUrl] = useState()
   const [flag, setFlag] = useState(false)
+  const [idx, setIdx] = useState(0)
 
   const isChanged = (val: React.SetStateAction<string>) => {
     const changedTitle = Number(val)
@@ -36,12 +38,21 @@ const Slide = ({navigation}) => {
       Animated.delay(seconds),
       fadeOutAnimation
     ]).start(() => {
+      setIdx(idx + 1)
       setFlag(!flag)
     })
   }
 
   useEffect(() => {
-    runAnimation()
+    if(idx >= 20) {
+      setIdx(0)
+    }
+    fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
+      .then(response => {return response.json()})
+      .then(j => {setUrl(j.items[idx].media.m)})
+      .then(() => {
+          runAnimation()
+      }).catch(() => setFlag(!flag))
   }, [flag])
 
   return(
@@ -51,7 +62,7 @@ const Slide = ({navigation}) => {
           opacity: fade,
         }}
         >
-          <Image source={Imgfile}
+          <Image source={{uri: url}}
                  style={{width: 200, height: 200}}
           />
         </Animated.View>
