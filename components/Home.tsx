@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Button, Text } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import React, { useState } from 'react';
+import { StyleSheet, View, Button, Text } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 const Home = ({navigation}) => {
-  const [title, setTitle] = useState('1')
+  const [title, setTitle] = useState('1');
   const isPressed = () => {
-    const changedTitle = Number(title)
+    const changedTitle = Number(title);
     navigation.navigate('Slide', {
       sec: changedTitle
-    })
-  }
+    });
+  };
 
   return (
     <View style={styles.mainView}>
@@ -20,8 +20,8 @@ const Home = ({navigation}) => {
       </View>
       <View style={styles.viewTwo}>
         <Picker style={{height: 200, width: 250}}
-                selectedValue={title}
-                onValueChange={(val) => setTitle(val)}>
+          selectedValue={title}
+          onValueChange={(val) => setTitle(val)}>
           <Picker.Item label='1초' value='1'/>
           <Picker.Item label='2초' value='2'/>
           <Picker.Item label='3초' value='3'/>
@@ -35,35 +35,35 @@ const Home = ({navigation}) => {
         </Picker>
 
         <Button title="시작"
-                onPress={isPressed}
+          onPress={isPressed}
         />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   viewOne: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   viewTwo: {
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "center"
+    justifyContent: 'flex-start',
+    alignItems: 'center'
   },
   textView: {
     marginTop: 100,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 35,
-    fontStyle: "italic"
+    fontStyle: 'italic'
   }
-})
+});
 
-export default Home
+export default Home;

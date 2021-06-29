@@ -1,23 +1,23 @@
-import React, { useEffect,  useState } from "react";
-import { View, Animated, Button, StyleSheet, Image, Text } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import React, { useEffect,  useState } from 'react';
+import { View, Animated, Button, StyleSheet, Image, Text } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 //import Imgfile from "../assets/images/ImageForNews_26919_15786618897301054.png.webp";
 
 const Slide = ({navigation}) => {
-  const sec = navigation.getParam('sec')
-  const [fade] = useState(new Animated.Value(0))
-  const [title, setTitle] = useState(String(sec))
-  const [seconds, setSeconds] = useState(sec * 1000)
-  const [url, setUrl] = useState()
-  const [flag, setFlag] = useState(false)
-  const [idx, setIdx] = useState(0)
-  const [isMounted, setIsMounted] = useState(true)
+  const sec = navigation.getParam('sec');
+  const [fade] = useState(new Animated.Value(0));
+  const [title, setTitle] = useState(String(sec));
+  const [seconds, setSeconds] = useState(sec * 1000);
+  const [url, setUrl] = useState();
+  const [flag, setFlag] = useState(false);
+  const [idx, setIdx] = useState(0);
+  const [isMounted, setIsMounted] = useState(true);
 
   const isChanged = (val: React.SetStateAction<string>) => {
-    const changedTitle = Number(val)
-    setSeconds(changedTitle * 1000)
-    setTitle(val)
-  }
+    const changedTitle = Number(val);
+    setSeconds(changedTitle * 1000);
+    setTitle(val);
+  };
 
   const fadeInAnimation = Animated.timing(
     fade, {
@@ -40,29 +40,29 @@ const Slide = ({navigation}) => {
       fadeOutAnimation
     ]).start(() => {
       if (isMounted) {
-        setIdx(idx + 1)
-        setFlag(!flag)
+        setIdx(idx + 1);
+        setFlag(!flag);
       }
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    setIsMounted(true)
+    setIsMounted(true);
     if(idx >= 20) {
-      setIdx(0)
+      setIdx(0);
     }
     fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
-      .then(response => {return response.json()})
+      .then(response => {return response.json();})
       .then(j => {
         if (isMounted) {
-          setUrl(j.items[idx].media.m)
+          setUrl(j.items[idx].media.m);
         }
       })
       .then(() => {
-          runAnimation()
-      }).catch(() => setFlag(!flag))
-    return () => {setIsMounted(false)}
-  }, [flag])
+        runAnimation();
+      }).catch(() => setFlag(!flag));
+    return () => {setIsMounted(false);};
+  }, [flag]);
 
   return(
     <View style={styles.eachView}>
@@ -72,15 +72,15 @@ const Slide = ({navigation}) => {
         }}
         >
           <Image source={{uri: url}}
-                 style={{width: 200, height: 200}}
+            style={{width: 200, height: 200}}
           />
         </Animated.View>
         <Text>현재 시간: {seconds / 1000}초</Text>
       </View>
       <View style={styles.viewTwo}>
         <Picker style = {{height: 200, width: 250}}
-                selectedValue={title}
-                onValueChange={(val) => isChanged(val)}>
+          selectedValue={title}
+          onValueChange={(val) => isChanged(val)}>
           <Picker.Item label='1초' value='1'/>
           <Picker.Item label='2초' value='2'/>
           <Picker.Item label='3초' value='3'/>
@@ -95,23 +95,23 @@ const Slide = ({navigation}) => {
       </View>
       <View style={styles.eachView}>
         <Button title="시작 화면으로"
-                onPress={() => navigation.navigate('Home')}/>
+          onPress={() => navigation.navigate('Home')}/>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   eachView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   viewTwo: {
     flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   }
-})
+});
 
-export default Slide
+export default Slide;
