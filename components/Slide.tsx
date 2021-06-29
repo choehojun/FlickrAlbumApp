@@ -1,4 +1,4 @@
-import React, { useEffect,  useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import { Animated, Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styled from '@emotion/native';
@@ -39,11 +39,11 @@ const Slide = ({navigation}) => {
   const [idx, setIdx] = useState(0);
   const [isMounted, setIsMounted] = useState(true);
 
-  const handleValueChange = (val: React.SetStateAction<string>) => {
+  const handleValueChange = useCallback((val: React.SetStateAction<string>) => {
     const changedTitle = Number(val);
     setDurationMillis(changedTitle * 1000);
     setTitle(val);
-  };
+  }, [setDurationMillis, setTitle]);
 
   const fadeInAnimation = Animated.timing(
     fade, {
@@ -59,7 +59,7 @@ const Slide = ({navigation}) => {
       useNativeDriver: true,
     }
   );
-  const runAnimation = () => {
+  const runAnimation = useCallback(() => {
     Animated.sequence([
       fadeInAnimation,
       Animated.delay(durationMillis),
@@ -70,7 +70,7 @@ const Slide = ({navigation}) => {
         setFlag(!flag);
       }
     });
-  };
+  }, [durationMillis, fadeInAnimation, fadeOutAnimation, setIdx, setFlag]);
 
   useEffect(() => {
     setIsMounted(true);

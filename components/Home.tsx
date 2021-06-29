@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useCallback, useState} from 'react';
 import { Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styled from '@emotion/native';
@@ -24,12 +24,12 @@ const InputContainer = styled.View({
 
 const Home = ({navigation}) => {
   const [title, setTitle] = useState('1');
-  const handlePress = () => {
+  const handlePress = useCallback(() => {
     const changedTitle = Number(title);
     navigation.navigate('Slide', {
       sec: changedTitle
     });
-  };
+  }, [title, navigation]);
 
   return (
     <>
