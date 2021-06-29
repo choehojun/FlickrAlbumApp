@@ -3,28 +3,28 @@ import { Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styled from '@emotion/native';
 
-const TextContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
+const TextContainer = styled.View({
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+});
 
-const AppName = styled.Text`
-  margin-top: 100px;
-  font-weight: bold;
-  font-size: 35px;
-  font-style: italic;
-`;
+const AppName = styled.Text({
+  marginTop: 100,
+  fontWeight: 'bold',
+  fontSize: 35,
+  fontStyle: 'italic',
+});
 
-const InputContainer = styled.View`
-  flex: 1;
-  justify-content: flex-start;
-  align-items: center;
-`;
+const InputContainer = styled.View({
+  flex: 1,
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+});
 
 const Home = ({navigation}) => {
   const [title, setTitle] = useState('1');
-  const isPressed = () => {
+  const handlePress = () => {
     const changedTitle = Number(title);
     navigation.navigate('Slide', {
       sec: changedTitle
@@ -55,7 +55,7 @@ const Home = ({navigation}) => {
         </Picker>
 
         <Button title="시작"
-          onPress={isPressed}
+          onPress={handlePress}
         />
       </InputContainer>
     </>

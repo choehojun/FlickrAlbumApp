@@ -3,31 +3,31 @@ import { Animated, Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styled from '@emotion/native';
 
-const ImageContainer = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`;
+const ImageContainer = styled.View({
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+});
 
-const InputContainer = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: flex-end;
-`;
+const InputContainer = styled.View({
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+});
 
-const StyledImage = styled.Image`
-  padding: 40px;
-`;
+const StyledImage = styled.Image({
+  padding: 40,
+});
 
-const StyledText = styled.Text`
-  font-size: 13px;
-`;
+const StyledText = styled.Text({
+  fontSize: 13,
+});
 
-const ButtonContainer = styled.View`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-`;
+const ButtonContainer = styled.View({
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+});
 
 const Slide = ({navigation}) => {
   const sec = navigation.getParam('sec');
@@ -39,7 +39,7 @@ const Slide = ({navigation}) => {
   const [idx, setIdx] = useState(0);
   const [isMounted, setIsMounted] = useState(true);
 
-  const isChanged = (val: React.SetStateAction<string>) => {
+  const handleValueChange = (val: React.SetStateAction<string>) => {
     const changedTitle = Number(val);
     setDurationMillis(changedTitle * 1000);
     setTitle(val);
@@ -110,7 +110,7 @@ const Slide = ({navigation}) => {
       <InputContainer>
         <Picker style = {{height: 200, width: 250}}
           selectedValue={title}
-          onValueChange={(val) => isChanged(val)}>
+          onValueChange={handleValueChange}>
           <Picker.Item label='1초' value='1'/>
           <Picker.Item label='2초' value='2'/>
           <Picker.Item label='3초' value='3'/>
