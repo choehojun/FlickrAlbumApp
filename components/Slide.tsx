@@ -3,13 +3,13 @@ import { Animated, Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styled from '@emotion/native';
 
-const Container = styled.View`
+const ImageContainer = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
 `;
 
-const ContainerTwo = styled.View`
+const InputContainer = styled.View`
   flex: 1;
   align-items: center;
   justify-content: flex-end;
@@ -27,7 +27,7 @@ const Slide = ({navigation}) => {
   const sec = navigation.getParam('sec');
   const [fade] = useState(new Animated.Value(0));
   const [title, setTitle] = useState(String(sec));
-  const [seconds, setSeconds] = useState(sec * 1000);
+  const [durationMillis, setDurationMillis] = useState(sec * 1000);
   const [url, setUrl] = useState();
   const [flag, setFlag] = useState(false);
   const [idx, setIdx] = useState(0);
@@ -35,7 +35,7 @@ const Slide = ({navigation}) => {
 
   const isChanged = (val: React.SetStateAction<string>) => {
     const changedTitle = Number(val);
-    setSeconds(changedTitle * 1000);
+    setDurationMillis(changedTitle * 1000);
     setTitle(val);
   };
 
@@ -56,7 +56,7 @@ const Slide = ({navigation}) => {
   const runAnimation = () => {
     Animated.sequence([
       fadeInAnimation,
-      Animated.delay(seconds),
+      Animated.delay(durationMillis),
       fadeOutAnimation
     ]).start(() => {
       if (isMounted) {
@@ -85,8 +85,8 @@ const Slide = ({navigation}) => {
   }, [flag]);
 
   return(
-    <Container>
-      <Container>
+    <>
+      <ImageContainer>
         <Animated.View style={{
           opacity: fade,
         }}
@@ -99,9 +99,9 @@ const Slide = ({navigation}) => {
             }}
           />
         </Animated.View>
-        <StyledText>현재 시간: {seconds / 1000}초</StyledText>
-      </Container>
-      <ContainerTwo>
+        <StyledText>현재 시간: {durationMillis / 1000}초</StyledText>
+      </ImageContainer>
+      <InputContainer>
         <Picker style = {{height: 200, width: 250}}
           selectedValue={title}
           onValueChange={(val) => isChanged(val)}>
@@ -116,12 +116,12 @@ const Slide = ({navigation}) => {
           <Picker.Item label='9초' value='9'/>
           <Picker.Item label='10초' value='10'/>
         </Picker>
-      </ContainerTwo>
-      <Container>
+      </InputContainer>
+      <ImageContainer>
         <Button title="시작 화면으로"
           onPress={() => navigation.navigate('Home')}/>
-      </Container>
-    </Container>
+      </ImageContainer>
+    </>
   );
 };
 

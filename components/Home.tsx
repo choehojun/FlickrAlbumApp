@@ -3,20 +3,20 @@ import { Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styled from '@emotion/native';
 
-const Container = styled.View`
+const TextContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
 `;
 
-const Description = styled.Text`
+const AppName = styled.Text`
   margin-top: 100px;
   font-weight: bold;
   font-size: 35px;
   font-style: italic;
 `;
 
-const ContainerTwo = styled.View`
+const InputContainer = styled.View`
   flex: 1;
   justify-content: flex-start;
   align-items: center;
@@ -32,13 +32,13 @@ const Home = ({navigation}) => {
   };
 
   return (
-    <Container>
-      <Container>
-        <Description>
+    <>
+      <TextContainer>
+        <AppName>
           FlickrAlbumApp
-        </Description>
-      </Container>
-      <ContainerTwo>
+        </AppName>
+      </TextContainer>
+      <InputContainer>
         <Picker style={{height: 200, width: 250}}
           selectedValue={title}
           onValueChange={(val) => setTitle(val)}>
@@ -57,8 +57,8 @@ const Home = ({navigation}) => {
         <Button title="시작"
           onPress={isPressed}
         />
-      </ContainerTwo>
-    </Container>
+      </InputContainer>
+    </>
   );
 };
 
