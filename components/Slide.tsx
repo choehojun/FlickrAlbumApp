@@ -1,7 +1,27 @@
 import React, { useEffect,  useState } from 'react';
-import { View, Animated, Button, StyleSheet, Image, Text } from 'react-native';
+import { Animated, Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-//import Imgfile from "../assets/images/ImageForNews_26919_15786618897301054.png.webp";
+import styled from '@emotion/native';
+
+const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ContainerTwo = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const StyledImage = styled.Image`
+  padding: 40px;
+`;
+
+const StyledText = styled.Text`
+  font-size: 13px;
+`;
 
 const Slide = ({navigation}) => {
   const sec = navigation.getParam('sec');
@@ -65,19 +85,23 @@ const Slide = ({navigation}) => {
   }, [flag]);
 
   return(
-    <View style={styles.eachView}>
-      <View style={styles.eachView}>
+    <Container>
+      <Container>
         <Animated.View style={{
           opacity: fade,
         }}
         >
-          <Image source={{uri: url}}
-            style={{width: 200, height: 200}}
+          <StyledImage
+            source={{
+              uri: url,
+              width: 200,
+              height: 200
+            }}
           />
         </Animated.View>
-        <Text>현재 시간: {seconds / 1000}초</Text>
-      </View>
-      <View style={styles.viewTwo}>
+        <StyledText>현재 시간: {seconds / 1000}초</StyledText>
+      </Container>
+      <ContainerTwo>
         <Picker style = {{height: 200, width: 250}}
           selectedValue={title}
           onValueChange={(val) => isChanged(val)}>
@@ -92,26 +116,13 @@ const Slide = ({navigation}) => {
           <Picker.Item label='9초' value='9'/>
           <Picker.Item label='10초' value='10'/>
         </Picker>
-      </View>
-      <View style={styles.eachView}>
+      </ContainerTwo>
+      <Container>
         <Button title="시작 화면으로"
           onPress={() => navigation.navigate('Home')}/>
-      </View>
-    </View>
+      </Container>
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  eachView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  viewTwo: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  }
-});
 
 export default Slide;

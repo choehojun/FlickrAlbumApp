@@ -1,6 +1,26 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Button, Text } from 'react-native';
+import { Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import styled from '@emotion/native';
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Description = styled.Text`
+  margin-top: 100px;
+  font-weight: bold;
+  font-size: 35px;
+  font-style: italic;
+`;
+
+const ContainerTwo = styled.View`
+  flex: 1;
+  justify-content: flex-start;
+  align-items: center;
+`;
 
 const Home = ({navigation}) => {
   const [title, setTitle] = useState('1');
@@ -12,13 +32,13 @@ const Home = ({navigation}) => {
   };
 
   return (
-    <View style={styles.mainView}>
-      <View style={styles.viewOne}>
-        <Text style={styles.textView}>
+    <Container>
+      <Container>
+        <Description>
           FlickrAlbumApp
-        </Text>
-      </View>
-      <View style={styles.viewTwo}>
+        </Description>
+      </Container>
+      <ContainerTwo>
         <Picker style={{height: 200, width: 250}}
           selectedValue={title}
           onValueChange={(val) => setTitle(val)}>
@@ -37,33 +57,9 @@ const Home = ({navigation}) => {
         <Button title="시작"
           onPress={isPressed}
         />
-      </View>
-    </View>
+      </ContainerTwo>
+    </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  mainView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  viewOne: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  viewTwo: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center'
-  },
-  textView: {
-    marginTop: 100,
-    fontWeight: 'bold',
-    fontSize: 35,
-    fontStyle: 'italic'
-  }
-});
 
 export default Home;
