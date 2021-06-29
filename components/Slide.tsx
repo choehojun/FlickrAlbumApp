@@ -23,6 +23,12 @@ const StyledText = styled.Text`
   font-size: 13px;
 `;
 
+const ButtonContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Slide = ({navigation}) => {
   const sec = navigation.getParam('sec');
   const [fade] = useState(new Animated.Value(0));
@@ -117,10 +123,11 @@ const Slide = ({navigation}) => {
           <Picker.Item label='10초' value='10'/>
         </Picker>
       </InputContainer>
-      <ImageContainer>
+      <ButtonContainer>
         <Button title="시작 화면으로"
-          onPress={() => navigation.navigate('Home')}/>
-      </ImageContainer>
+          onPress={() => navigation.navigate('Home')}
+        />
+      </ButtonContainer>
     </>
   );
 };
