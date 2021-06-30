@@ -3,32 +3,6 @@ import { Animated, Button } from 'react-native'
 import PickerComponent from './Picker'
 import styled from '@emotion/native'
 
-const ImageContainer = styled.View({
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-})
-
-const InputContainer = styled.View({
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-})
-
-const StyledImage = styled.Image({
-    padding: 40,
-})
-
-const StyledText = styled.Text({
-    fontSize: 13,
-})
-
-const ButtonContainer = styled.View({
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-})
-
 const Slide = ({navigation}) => {
     const sec = navigation.getParam('sec')
     const [fade] = useState(new Animated.Value(0))
@@ -130,5 +104,31 @@ const Slide = ({navigation}) => {
         </>
     )
 }
+
+const ImageContainer = styled.View({
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+})
+
+const InputContainer = styled.View({
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+})
+
+const StyledImage = styled.Image({
+    padding: 40,
+})
+
+const StyledText = styled.Text({
+    fontSize: 13,
+})
+
+const ButtonContainer = styled.View({
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+})
 
 export default Slide

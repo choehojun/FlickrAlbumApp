@@ -3,25 +3,6 @@ import { Button } from 'react-native'
 import PickerComponent from './Picker'
 import styled from '@emotion/native'
 
-const TextContainer = styled.View({
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-})
-
-const AppName = styled.Text({
-    marginTop: 100,
-    fontWeight: 'bold',
-    fontSize: 35,
-    fontStyle: 'italic',
-})
-
-const InputContainer = styled.View({
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-})
-
 const Home = ({navigation}) => {
     const [title, setTitle] = useState('1')
     const handlePress = useCallback(() => {
@@ -50,5 +31,24 @@ const Home = ({navigation}) => {
         </>
     )
 }
+
+const TextContainer = styled.View({
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+})
+
+const AppName = styled.Text({
+    marginTop: 100,
+    fontWeight: 'bold',
+    fontSize: 35,
+    fontStyle: 'italic',
+})
+
+const InputContainer = styled.View({
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+})
 
 export default Home
