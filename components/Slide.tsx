@@ -76,7 +76,7 @@ const Slide = ({navigation}) => {
                 }
             }
         })
-    }, [durationMillis, fadeInAnimation, fadeOutAnimation, setIdx, setFlag, setUrl])
+    }, [durationMillis, fadeInAnimation, fadeOutAnimation, setIdx, setFlag, setUrl, isMounted, flag, idx, url])
 
     useEffect(() => {
         setIsMounted(true)
