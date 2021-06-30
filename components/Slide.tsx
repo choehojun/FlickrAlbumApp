@@ -35,9 +35,10 @@ const Slide = ({navigation}) => {
   const [title, setTitle] = useState(String(sec));
   const [durationMillis, setDurationMillis] = useState(sec * 1000);
   const [url, setUrl] = useState();
-  const [flag, setFlag] = useState(false);
+  const [flag, setFlag] = useState(true);
   const [idx, setIdx] = useState(0);
   const [isMounted, setIsMounted] = useState(true);
+  const [urlArray, setUrlArray] = useState();
 
   const handleValueChange = useCallback((val: React.SetStateAction<string>) => {
     const changedTitle = Number(val);
@@ -66,29 +67,38 @@ const Slide = ({navigation}) => {
       fadeOutAnimation
     ]).start(() => {
       if (isMounted) {
-        setIdx(idx + 1);
-        setFlag(!flag);
+        if (idx < 20) {
+          setUrl(urlArray.items[idx].media.m);
+          setIdx(idx + 1);
+        } else {
+          setIdx(0);
+          setFlag(true);
+        }
       }
     });
-  }, [durationMillis, fadeInAnimation, fadeOutAnimation, setIdx, setFlag]);
+  }, [durationMillis, fadeInAnimation, fadeOutAnimation, setIdx, setFlag, setUrl]);
 
   useEffect(() => {
     setIsMounted(true);
-    if(idx >= 20) {
-      setIdx(0);
-    }
-    fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
-      .then(response => {return response.json();})
-      .then(j => {
-        if (isMounted) {
-          setUrl(j.items[idx].media.m);
-        }
-      })
-      .then(() => {
-        runAnimation();
-      }).catch(() => setFlag(!flag));
+    if (flag) {
+      fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
+        .then(response => {
+          return response.json();
+        })
+        .then(j => {
+          if (isMounted) {
+            setUrl(j.items[idx].media.m);
+            setUrlArray(j);
+            setFlag(false);
+          }
+        }).then(() => {
+          if(isMounted) {
+            setIdx(idx + 1);
+          }
+        });
+    } else runAnimation();
     return () => {setIsMounted(false);};
-  }, [flag]);
+  }, [idx, flag]);
 
   return(
     <>
