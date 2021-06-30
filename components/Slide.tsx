@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import { Animated, Button } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import PickerComponent from './Picker';
 import styled from '@emotion/native';
 
 const ImageContainer = styled.View({
@@ -118,20 +118,9 @@ const Slide = ({navigation}) => {
         <StyledText>현재 시간: {durationMillis / 1000}초</StyledText>
       </ImageContainer>
       <InputContainer>
-        <Picker style = {{height: 200, width: 250}}
-          selectedValue={title}
+        <PickerComponent selectedValue={title}
           onValueChange={handleValueChange}>
-          <Picker.Item label='1초' value='1'/>
-          <Picker.Item label='2초' value='2'/>
-          <Picker.Item label='3초' value='3'/>
-          <Picker.Item label='4초' value='4'/>
-          <Picker.Item label='5초' value='5'/>
-          <Picker.Item label='6초' value='6'/>
-          <Picker.Item label='7초' value='7'/>
-          <Picker.Item label='8초' value='8'/>
-          <Picker.Item label='9초' value='9'/>
-          <Picker.Item label='10초' value='10'/>
-        </Picker>
+        </PickerComponent>
       </InputContainer>
       <ButtonContainer>
         <Button title="시작 화면으로"
