@@ -1,14 +1,14 @@
 import React, {useCallback, useState} from 'react'
 import { Button } from 'react-native'
-import PickerComponent from './Picker'
+import PickerComponent from './PickerComponent'
 import styled from '@emotion/native'
 
 const Home = ({navigation}) => {
     const [title, setTitle] = useState('1')
     const handlePress = useCallback(() => {
-        const changedTitle = Number(title)
+        const titleToSecond = Number(title)
         navigation.navigate('Slide', {
-            sec: changedTitle
+            sec: titleToSecond
         })
     }, [title, navigation])
 

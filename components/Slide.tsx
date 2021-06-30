@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import { Animated, Button } from 'react-native'
-import PickerComponent from './Picker'
+import PickerComponent from './PickerComponent'
 import styled from '@emotion/native'
 
 const Slide = ({navigation}) => {
@@ -15,8 +15,8 @@ const Slide = ({navigation}) => {
     const [urlArray, setUrlArray] = useState()
 
     const handleValueChange = useCallback((val: React.SetStateAction<string>) => {
-        const changedTitle = Number(val)
-        setDurationMillis(changedTitle * 1000)
+        const titleToSecond = Number(val)
+        setDurationMillis(titleToSecond * 1000)
         setTitle(val)
     }, [setDurationMillis, setTitle])
 
