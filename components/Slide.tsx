@@ -8,7 +8,6 @@ const Slide = ({navigation}) => {
     const [fade] = useState(new Animated.Value(0))
     const [title, setTitle] = useState(String(sec))
     const [durationMillis, setDurationMillis] = useState(sec * 1000)
-    const [url, setUrl] = useState()
     const [flag, setFlag] = useState(true)
     const [idx, setIdx] = useState(0)
     const [isMounted, setIsMounted] = useState(true)
@@ -41,41 +40,40 @@ const Slide = ({navigation}) => {
             fadeOutAnimation
         ]).start(() => {
             if (isMounted) {
-                if (idx < 20) {
-                    setUrl(urlArray[idx])
+                if (idx < 19) {
                     setIdx(idx + 1)
                 } else {
-                    setIdx(0)
                     setFlag(true)
+                    setIdx(0)
                 }
             }
         })
-    }, [durationMillis, fadeInAnimation, fadeOutAnimation, setIdx, setFlag, setUrl, isMounted, flag, idx, url])
+    }, [durationMillis, fadeInAnimation, fadeOutAnimation, setIdx, setFlag, isMounted, flag, idx])
+
+    const FetchImages = useCallback(() => {
+        fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
+            .then(response => {
+                return response.json()
+            })
+            .then(j => {
+                const imagArray = j.items.map((item: { media: { m: string } }) => {
+                    return item.media.m
+                })
+                if (isMounted) {
+                    setUrlArray(imagArray)
+                    setFlag(false)
+                }
+            })
+    }, [isMounted, setUrlArray, setFlag, flag, urlArray])
 
     useEffect(() => {
         setIsMounted(true)
         if (flag) {
-            fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
-                .then(response => {
-                    return response.json()
-                })
-                .then(j => {
-                    const imagArray = j.items.map((item: { media: { m: string } }) => {
-                        return item.media.m
-                    })
-                    if (isMounted) {
-                        setUrl(j.items[idx].media.m)
-                        setUrlArray(imagArray)
-                        setFlag(false)
-                    }
-                }).then(() => {
-                    if(isMounted) {
-                        setIdx(idx + 1)
-                    }
-                })
-        } else runAnimation()
+            FetchImages()
+        }
+        runAnimation()
         return () => {setIsMounted(false)}
-    }, [idx, flag])
+    }, [idx])
 
     return(
         <>
@@ -86,13 +84,13 @@ const Slide = ({navigation}) => {
                 >
                     <StyledImage
                         source={{
-                            uri: url,
+                            uri: urlArray[idx],
                             width: 200,
                             height: 200
                         }}
                     />
                 </Animated.View>
-                <StyledText>현재 시간: {durationMillis / 1000}초</StyledText>
+                <StyledText>현재 시간: {durationMillis / 1000}초{idx}</StyledText>
             </ImageContainer>
             <InputContainer>
                 <PickerComponent selectedValue={title}
