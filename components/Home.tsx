@@ -21,7 +21,7 @@ const Home = ({navigation}) => {
             </TextContainer>
             <InputContainer>
                 <PickerComponent selectedValue={title}
-                    onValueChange={(val) => setTitle(val)}>
+                    onValueChange={(val: string) => setTitle(val)}>
                 </PickerComponent>
 
                 <Button title="시작"

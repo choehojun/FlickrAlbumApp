@@ -1,7 +1,12 @@
 import { Picker } from '@react-native-picker/picker'
 import React from 'react'
 
-const PickerComponent = ({selectedValue, onValueChange}) => {
+interface Props {
+    selectedValue: string
+    onValueChange: (val: string) => void
+}
+
+const PickerComponent = ({selectedValue, onValueChange}: Props) => {
     return (
         <Picker style={{height: 200, width: 250}}
             selectedValue={selectedValue}

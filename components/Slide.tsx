@@ -12,9 +12,9 @@ const Slide = ({navigation}) => {
     const [flag, setFlag] = useState(true)
     const [idx, setIdx] = useState(0)
     const [isMounted, setIsMounted] = useState(true)
-    const [urlArray, setUrlArray] = useState()
+    const [urlArray, setUrlArray] = useState<Array<string>>([])
 
-    const handleValueChange = useCallback((val: React.SetStateAction<string>) => {
+    const handleValueChange = useCallback((val: string) => {
         const titleToSecond = Number(val)
         setDurationMillis(titleToSecond * 1000)
         setTitle(val)
@@ -42,7 +42,7 @@ const Slide = ({navigation}) => {
         ]).start(() => {
             if (isMounted) {
                 if (idx < 20) {
-                    setUrl(urlArray.items[idx].media.m)
+                    setUrl(urlArray[idx])
                     setIdx(idx + 1)
                 } else {
                     setIdx(0)
@@ -60,9 +60,12 @@ const Slide = ({navigation}) => {
                     return response.json()
                 })
                 .then(j => {
+                    const imagArray = j.items.map((item: { media: { m: string } }) => {
+                        return item.media.m
+                    })
                     if (isMounted) {
                         setUrl(j.items[idx].media.m)
-                        setUrlArray(j)
+                        setUrlArray(imagArray)
                         setFlag(false)
                     }
                 }).then(() => {
