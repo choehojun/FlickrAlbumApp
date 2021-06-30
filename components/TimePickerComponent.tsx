@@ -6,7 +6,7 @@ interface Props {
     onValueChange: (val: string) => void
 }
 
-const PickerComponent = ({selectedValue, onValueChange}: Props) => {
+const TimePickerComponent = ({selectedValue, onValueChange}: Props) => {
     return (
         <Picker style={{height: 200, width: 250}}
             selectedValue={selectedValue}
@@ -25,4 +25,4 @@ const PickerComponent = ({selectedValue, onValueChange}: Props) => {
     )
 }
 
-export default PickerComponent
+export default TimePickerComponent

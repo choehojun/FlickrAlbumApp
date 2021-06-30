@@ -1,9 +1,14 @@
 import React, {useCallback, useState} from 'react'
 import { Button } from 'react-native'
-import PickerComponent from './PickerComponent'
+import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
+import {NavigationScreenProp} from 'react-navigation'
 
-const Home = ({navigation}) => {
+interface Props {
+    navigation: NavigationScreenProp<any>
+}
+
+const Home = ({navigation}: Props) => {
     const [title, setTitle] = useState('1')
     const handlePress = useCallback(() => {
         const titleToSecond = Number(title)
@@ -20,10 +25,9 @@ const Home = ({navigation}) => {
                 </AppName>
             </TextContainer>
             <InputContainer>
-                <PickerComponent selectedValue={title}
-                    onValueChange={(val: string) => setTitle(val)}>
-                </PickerComponent>
-
+                <TimePickerComponent selectedValue={title}
+                    onValueChange={(val: string) => setTitle(val)}
+                />
                 <Button title="시작"
                     onPress={handlePress}
                 />

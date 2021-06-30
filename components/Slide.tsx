@@ -1,9 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import { Animated, Button } from 'react-native'
-import PickerComponent from './PickerComponent'
+import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
+import {NavigationScreenProp} from 'react-navigation'
 
-const Slide = ({navigation}) => {
+interface Props {
+    navigation: NavigationScreenProp<any>
+}
+
+const Slide = ({navigation}: Props) => {
     const sec = navigation.getParam('sec')
     const [fade] = useState(new Animated.Value(0))
     const [title, setTitle] = useState(String(sec))
@@ -43,6 +48,7 @@ const Slide = ({navigation}) => {
                 if (idx < 19) {
                     setIdx(idx + 1)
                 } else {
+                    setUrlArray([])
                     setFlag(true)
                     setIdx(0)
                 }
@@ -90,12 +96,12 @@ const Slide = ({navigation}) => {
                         }}
                     />
                 </Animated.View>
-                <StyledText>현재 시간: {durationMillis / 1000}초{idx}</StyledText>
+                <StyledText>현재 시간: {durationMillis / 1000}초</StyledText>
             </ImageContainer>
             <InputContainer>
-                <PickerComponent selectedValue={title}
-                    onValueChange={handleValueChange}>
-                </PickerComponent>
+                <TimePickerComponent selectedValue={title}
+                    onValueChange={handleValueChange}
+                />
             </InputContainer>
             <ButtonContainer>
                 <Button title="시작 화면으로"
