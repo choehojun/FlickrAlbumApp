@@ -27,45 +27,26 @@ const Slide = ({navigation}: Props) => {
         setTitle(val)
     }, [setDurationMillis, setTitle])
 
-    const fadeInAnimationOne = Animated.timing(
-        fadeOne, {
-            toValue: 1,
-            duration: 0,
+    const fadeInAndOut = (fade: Animated.Value, duration: number, value: number) => Animated.timing(
+        fade, {
+            toValue: value,
+            duration: duration,
             useNativeDriver: true,
         }
     )
 
-    const fadeOutAnimationOne = Animated.timing(
-        fadeOne, {
-            toValue: 0,
-            duration: 1000,
-            useNativeDriver: true,
-        }
-    )
-
-    const fadeInAnimationTwo = Animated.timing(
-        fadeTwo, {
-            toValue: 1,
-            duration: 1000,
-            useNativeDriver: true,
-        }
-    )
-
-    const fadeOutAnimationTwo = Animated.timing(
-        fadeTwo, {
-            toValue: 0,
-            duration: 0,
-            useNativeDriver: true,
-        }
-    )
+    const ImageOneFadeIn = fadeInAndOut(fadeOne, 0, 1)
+    const ImageTwoFadeIn = fadeInAndOut(fadeTwo, 1000, 1)
+    const ImageOneFadeOut = fadeInAndOut(fadeOne, 1000, 0)
+    const ImageTwoFadeOut = fadeInAndOut(fadeTwo, 0, 0)
 
     const runAnimation = useCallback(() => {
         Animated.sequence([
-            fadeInAnimationOne,
+            ImageOneFadeIn,
             Animated.delay(durationMillis),
             Animated.parallel([
-                fadeOutAnimationOne,
-                fadeInAnimationTwo
+                ImageOneFadeOut,
+                ImageTwoFadeIn,
             ]),
         ]).start(() => {
             if (isMounted) {
@@ -81,10 +62,8 @@ const Slide = ({navigation}: Props) => {
                     setIdx(idx + 1)
                 }
             }
-            fadeOutAnimationTwo.start()
         })
-    }, [durationMillis, fadeInAnimationOne, fadeOutAnimationOne, fadeInAnimationTwo, fadeOutAnimationTwo,
-        setFetchFlag, setUrlArray, setIdx, fetchFlag, idx, urlArray])
+    }, [durationMillis, ImageOneFadeIn, ImageOneFadeOut, ImageTwoFadeIn, setFetchFlag, setUrlArray, setIdx, fetchFlag, idx, urlArray])
 
     const StartFetch = useCallback(() => {
         fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
@@ -126,12 +105,16 @@ const Slide = ({navigation}: Props) => {
         if (fetchFlag) {
             FetchToTemp()
         }
+        ImageTwoFadeOut.start()
         runAnimation()
         return () => {setIsMounted(false)}
     }, [idx])
 
     return(
         <>
+            <TextContainer>
+                <StyledText>현재 시간: {durationMillis / 1000}초</StyledText>
+            </TextContainer>
             <ImageContainer>
                 <Animated.View style={{
                     opacity: fadeOne,
@@ -141,8 +124,8 @@ const Slide = ({navigation}: Props) => {
                     <StyledImage
                         source={{
                             uri: urlArray[idx],
-                            width: 200,
-                            height: 200
+                            width: 300,
+                            height: 300
                         }}
                     />
                 </Animated.View>
@@ -154,12 +137,11 @@ const Slide = ({navigation}: Props) => {
                     <StyledImage
                         source={{
                             uri: idx === 19 ? tempArray[0] : urlArray[idx + 1],
-                            width: 200,
-                            height: 200
+                            width: 300,
+                            height: 300
                         }}
                     />
                 </Animated.View>
-                <StyledText>현재 시간: {durationMillis / 1000}초</StyledText>
             </ImageContainer>
             <InputContainer>
                 <TimePickerComponent selectedValue={title}
@@ -176,15 +158,24 @@ const Slide = ({navigation}: Props) => {
 }
 
 const ImageContainer = styled.View({
+    marginBottom: 130,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
 })
 
 const InputContainer = styled.View({
+    marginTop: 40,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-end',
+})
+
+const TextContainer = styled.View({
+    marginTop: 20,
+    marginBottom: 130,
+    alignItems: 'center',
+    justifyContent: 'center',
 })
 
 const StyledImage = styled.Image({
