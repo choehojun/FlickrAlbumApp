@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import { Animated, Button } from 'react-native'
 import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
@@ -10,13 +10,16 @@ interface Props {
 
 const Slide = ({navigation}: Props) => {
     const sec = navigation.getParam('sec')
-    const [fade] = useState(new Animated.Value(0))
+    const fadeOne = useRef(new Animated.Value(0)).current
+    const fadeTwo = useRef(new Animated.Value(0)).current
     const [title, setTitle] = useState(String(sec))
     const [durationMillis, setDurationMillis] = useState(sec * 1000)
-    const [flag, setFlag] = useState(true)
+    const [startFlag, setStartFlag] = useState(true)
+    const [fetchFlag, setFetchFlag] = useState(false)
     const [idx, setIdx] = useState(0)
     const [isMounted, setIsMounted] = useState(true)
     const [urlArray, setUrlArray] = useState<Array<string>>([])
+    const [tempArray, setTempArray] = useState<Array<string>>([])
 
     const handleValueChange = useCallback((val: string) => {
         const titleToSecond = Number(val)
@@ -24,39 +27,66 @@ const Slide = ({navigation}: Props) => {
         setTitle(val)
     }, [setDurationMillis, setTitle])
 
-    const fadeInAnimation = Animated.timing(
-        fade, {
+    const fadeInAnimationOne = Animated.timing(
+        fadeOne, {
             toValue: 1,
-            duration: 1000,
+            duration: 0,
             useNativeDriver: true,
         }
     )
-    const fadeOutAnimation = Animated.timing(
-        fade, {
+
+    const fadeOutAnimationOne = Animated.timing(
+        fadeOne, {
             toValue: 0,
             duration: 1000,
             useNativeDriver: true,
         }
     )
+
+    const fadeInAnimationTwo = Animated.timing(
+        fadeTwo, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+        }
+    )
+
+    const fadeOutAnimationTwo = Animated.timing(
+        fadeTwo, {
+            toValue: 0,
+            duration: 0,
+            useNativeDriver: true,
+        }
+    )
+
     const runAnimation = useCallback(() => {
         Animated.sequence([
-            fadeInAnimation,
+            fadeInAnimationOne,
             Animated.delay(durationMillis),
-            fadeOutAnimation
+            Animated.parallel([
+                fadeOutAnimationOne,
+                fadeInAnimationTwo
+            ]),
         ]).start(() => {
             if (isMounted) {
-                if (idx < 19) {
+                if(idx === 15) {
+                    setFetchFlag(true)
                     setIdx(idx + 1)
-                } else {
-                    setUrlArray([])
-                    setFlag(true)
+                }
+                else if (idx === 19) {
+                    setUrlArray(tempArray)
                     setIdx(0)
                 }
+                else {
+                    setIdx(idx + 1)
+                }
             }
+            fadeOutAnimationTwo.start()
         })
-    }, [durationMillis, fadeInAnimation, fadeOutAnimation, setIdx, setFlag, isMounted, flag, idx])
+    }, [durationMillis, fadeInAnimationOne, fadeOutAnimationOne, fadeInAnimationTwo, fadeOutAnimationTwo,
+        setFetchFlag, setUrlArray, setIdx, fetchFlag, idx, urlArray])
 
-    const FetchImages = useCallback(() => {
+    const StartFetch = useCallback(() => {
         fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
             .then(response => {
                 return response.json()
@@ -67,15 +97,34 @@ const Slide = ({navigation}: Props) => {
                 })
                 if (isMounted) {
                     setUrlArray(imagArray)
-                    setFlag(false)
+                    setStartFlag(false)
                 }
             })
-    }, [isMounted, setUrlArray, setFlag, flag, urlArray])
+    }, [isMounted, setUrlArray, setStartFlag, startFlag, urlArray])
+
+    const FetchToTemp = useCallback(() => {
+        fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
+            .then(response => {
+                return response.json()
+            })
+            .then(j => {
+                const imagArray = j.items.map((item: { media: { m: string } }) => {
+                    return item.media.m
+                })
+                if (isMounted) {
+                    setTempArray(imagArray)
+                    setFetchFlag(false)
+                }
+            })
+    }, [isMounted, setTempArray, setFetchFlag, fetchFlag, tempArray])
 
     useEffect(() => {
         setIsMounted(true)
-        if (flag) {
-            FetchImages()
+        if (startFlag) {
+            StartFetch()
+        }
+        if (fetchFlag) {
+            FetchToTemp()
         }
         runAnimation()
         return () => {setIsMounted(false)}
@@ -85,12 +134,26 @@ const Slide = ({navigation}: Props) => {
         <>
             <ImageContainer>
                 <Animated.View style={{
-                    opacity: fade,
+                    opacity: fadeOne,
+                    position: 'absolute'
                 }}
                 >
                     <StyledImage
                         source={{
                             uri: urlArray[idx],
+                            width: 200,
+                            height: 200
+                        }}
+                    />
+                </Animated.View>
+                <Animated.View style={{
+                    opacity: fadeTwo,
+                    position: 'absolute'
+                }}
+                >
+                    <StyledImage
+                        source={{
+                            uri: idx === 19 ? tempArray[0] : urlArray[idx + 1],
                             width: 200,
                             height: 200
                         }}
