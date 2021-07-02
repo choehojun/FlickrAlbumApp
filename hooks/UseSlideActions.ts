@@ -5,24 +5,24 @@ import {fetchFromFlickrAPI} from '../service/FetchFromFlickrAPI'
 const FLICKR_LANDSCAPE_PORTRAIT_URL = 'https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1'
 
 export const useSlideActions = (sec: number) => {
-    const [durationMillis, setDurationMillis] = useState(sec * 1000)
+    const [delayMillis, setDelayMillis] = useState(sec * 1000)
     const [startFlag, setStartFlag] = useState(true)
     const [fetchFlag, setFetchFlag] = useState(false)
     const [idx, setIdx] = useState(0)
     const [isMounted, setIsMounted] = useState(true)
     const [urlArray, setUrlArray] = useState<Array<string>>([])
     const [tempArray, setTempArray] = useState<Array<string>>([])
-    const title = String(durationMillis / 1000)
+    const pickerTime = String(delayMillis / 1000)
     const {
-        fadeOne,
-        fadeTwo,
+        opacityForOddIndex,
+        opacityForEvenIndex,
         fadeAnimation,
-    } = useFadeAnimation(durationMillis)
+    } = useFadeAnimation(delayMillis)
 
     const handleValueChange = useCallback((val: string) => {
-        const titleToSecond = Number(val)
-        setDurationMillis(titleToSecond * 1000)
-    }, [setDurationMillis])
+        const stringToNumberSecond = Number(val)
+        setDelayMillis(stringToNumberSecond * 1000)
+    }, [setDelayMillis])
 
     const startFetch = useCallback(() => {
         fetchFromFlickrAPI(FLICKR_LANDSCAPE_PORTRAIT_URL)
@@ -76,9 +76,9 @@ export const useSlideActions = (sec: number) => {
         }
     }, [idx])
     return {
-        title,
-        fadeOne,
-        fadeTwo,
+        pickerTime,
+        opacityForOddIndex,
+        opacityForEvenIndex,
         idx,
         urlArray,
         tempArray,

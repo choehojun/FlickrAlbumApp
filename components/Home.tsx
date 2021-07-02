@@ -14,8 +14,8 @@ interface Props {
 
 const Home = ({navigation}: Props) => {
     const {
-        title,
-        setTitle,
+        pickerTime,
+        setPickerTime,
         handlePress,
     } = useHomeActions(navigation)
 
@@ -27,8 +27,8 @@ const Home = ({navigation}: Props) => {
                 </AppName>
             </TextContainer>
             <InputContainer>
-                <TimePickerComponent selectedValue={title}
-                    onValueChange={setTitle}
+                <TimePickerComponent selectedValue={pickerTime}
+                    onValueChange={setPickerTime}
                 />
                 <Button title="시작"
                     onPress={handlePress}

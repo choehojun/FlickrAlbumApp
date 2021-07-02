@@ -18,9 +18,9 @@ interface Props {
 const Slide = ({navigation, route}: Props) => {
     const {sec} = route.params
     const {
-        title,
-        fadeOne,
-        fadeTwo,
+        pickerTime,
+        opacityForOddIndex,
+        opacityForEvenIndex,
         idx,
         urlArray,
         tempArray,
@@ -30,11 +30,11 @@ const Slide = ({navigation, route}: Props) => {
     return(
         <>
             <TextContainer>
-                <StyledText>현재 시간: {title}초</StyledText>
+                <StyledText>현재 시간: {pickerTime}초</StyledText>
             </TextContainer>
             <ImageContainer>
                 <Animated.View style={{
-                    opacity: fadeOne,
+                    opacity: opacityForOddIndex,
                     position: 'absolute'
                 }}
                 >
@@ -47,7 +47,7 @@ const Slide = ({navigation, route}: Props) => {
                     />
                 </Animated.View>
                 <Animated.View style={{
-                    opacity: fadeTwo,
+                    opacity: opacityForEvenIndex,
                     position: 'absolute'
                 }}
                 >
@@ -61,7 +61,7 @@ const Slide = ({navigation, route}: Props) => {
                 </Animated.View>
             </ImageContainer>
             <InputContainer>
-                <TimePickerComponent selectedValue={title}
+                <TimePickerComponent selectedValue={pickerTime}
                     onValueChange={handleValueChange}
                 />
             </InputContainer>

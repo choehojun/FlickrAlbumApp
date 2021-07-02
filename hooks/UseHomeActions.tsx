@@ -5,17 +5,17 @@ import RootStackParamList from '../navigation/RootStackParamList'
 type HomeNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>
 
 export const useHomeActions = (navigation: HomeNavigationProp) => {
-    const [title, setTitle] = useState('1')
+    const [pickerTime, setPickerTime] = useState('1')
     const handlePress = useCallback(() => {
-        const titleToSecond = Number(title)
+        const stringToNumberSecond = Number(pickerTime)
         navigation.navigate('Slide', {
-            sec: titleToSecond
+            sec: stringToNumberSecond
         })
-    }, [title, navigation])
+    }, [pickerTime, navigation])
 
     return {
-        title,
-        setTitle,
+        pickerTime,
+        setPickerTime,
         handlePress,
     }
 }
