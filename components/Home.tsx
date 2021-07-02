@@ -2,10 +2,13 @@ import React, {useCallback, useState} from 'react'
 import { Button } from 'react-native'
 import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
-import {NavigationStackProp} from 'react-navigation-stack'
+import {StackNavigationProp} from '@react-navigation/stack'
+import RootStackParamList from '../navigation/RootStackParamList'
+
+type HomeNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>
 
 interface Props {
-    navigation: NavigationStackProp<{userId: string}>
+    navigation: HomeNavigationProp
 }
 
 const Home = ({navigation}: Props) => {

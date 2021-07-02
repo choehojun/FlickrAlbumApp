@@ -2,14 +2,20 @@ import React, {useCallback, useEffect, useRef, useState} from 'react'
 import { Animated, Button } from 'react-native'
 import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
-import {NavigationStackProp} from 'react-navigation-stack'
+import {StackNavigationProp} from '@react-navigation/stack'
+import RootStackParamList from '../navigation/RootStackParamList'
+import {RouteProp} from '@react-navigation/native'
+
+type SlideNavigationProp = StackNavigationProp<RootStackParamList, 'Slide'>
+type SlideRouteProp = RouteProp<RootStackParamList, 'Slide'>
 
 interface Props {
-    navigation: NavigationStackProp<{userId: string}>
+    navigation: SlideNavigationProp
+    route: SlideRouteProp
 }
 
-const Slide = ({navigation}: Props) => {
-    const sec = navigation.getParam('sec')
+const Slide = ({navigation, route}: Props) => {
+    const sec = route.params.sec
     const fadeOne = useRef(new Animated.Value(0)).current
     const fadeTwo = useRef(new Animated.Value(0)).current
     const [title, setTitle] = useState(String(sec))
