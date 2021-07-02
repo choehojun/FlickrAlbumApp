@@ -41,18 +41,21 @@ const Slide = ({navigation, route}: Props) => {
         }
     )
 
-    const ImageOneFadeIn = fadeInAndOut(fadeOne, 0, 1)
-    const ImageTwoFadeIn = fadeInAndOut(fadeTwo, 1000, 1)
-    const ImageOneFadeOut = fadeInAndOut(fadeOne, 1000, 0)
-    const ImageTwoFadeOut = fadeInAndOut(fadeTwo, 0, 0)
+    const imageOneFadeIn = fadeInAndOut(fadeOne, 0, 1)
+    const imageTwoFadeIn = fadeInAndOut(fadeTwo, 1000, 1)
+    const imageOneFadeOut = fadeInAndOut(fadeOne, 1000, 0)
+    const imageTwoFadeOut = fadeInAndOut(fadeTwo, 0, 0)
 
     const runAnimation = useCallback(() => {
         Animated.sequence([
-            ImageOneFadeIn,
+            Animated.parallel([
+                imageTwoFadeOut,
+                imageOneFadeIn,
+            ]),
             Animated.delay(durationMillis),
             Animated.parallel([
-                ImageOneFadeOut,
-                ImageTwoFadeIn,
+                imageOneFadeOut,
+                imageTwoFadeIn,
             ]),
         ]).start(() => {
             if (isMounted) {
@@ -69,9 +72,9 @@ const Slide = ({navigation, route}: Props) => {
                 }
             }
         })
-    }, [durationMillis, ImageOneFadeIn, ImageOneFadeOut, ImageTwoFadeIn, setFetchFlag, setUrlArray, setIdx, fetchFlag, idx, urlArray])
+    }, [durationMillis, imageOneFadeIn, imageOneFadeOut, imageTwoFadeIn, setFetchFlag, setUrlArray, setIdx, fetchFlag, idx, urlArray])
 
-    const StartFetch = useCallback(() => {
+    const startFetch = useCallback(() => {
         fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
             .then(response => {
                 return response.json()
@@ -87,7 +90,7 @@ const Slide = ({navigation, route}: Props) => {
             })
     }, [isMounted, setUrlArray, setStartFlag, startFlag, urlArray])
 
-    const FetchToTemp = useCallback(() => {
+    const fetchToTemp = useCallback(() => {
         fetch('https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1')
             .then(response => {
                 return response.json()
@@ -106,12 +109,11 @@ const Slide = ({navigation, route}: Props) => {
     useEffect(() => {
         setIsMounted(true)
         if (startFlag) {
-            StartFetch()
+            startFetch()
         }
         if (fetchFlag) {
-            FetchToTemp()
+            fetchToTemp()
         }
-        ImageTwoFadeOut.start()
         runAnimation()
         return () => {setIsMounted(false)}
     }, [idx])
