@@ -15,7 +15,7 @@ interface Props {
 }
 
 const Slide = ({navigation, route}: Props) => {
-    const sec = route.params.sec
+    const {sec} = route.params
     const fadeOne = useRef(new Animated.Value(0)).current
     const fadeTwo = useRef(new Animated.Value(0)).current
     const [title, setTitle] = useState(String(sec))
