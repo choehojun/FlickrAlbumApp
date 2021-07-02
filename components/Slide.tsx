@@ -2,10 +2,10 @@ import React, {useCallback, useEffect, useRef, useState} from 'react'
 import { Animated, Button } from 'react-native'
 import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
-import {NavigationScreenProp} from 'react-navigation'
+import {NavigationStackProp} from 'react-navigation-stack'
 
 interface Props {
-    navigation: NavigationScreenProp<any>
+    navigation: NavigationStackProp<{userId: string}>
 }
 
 const Slide = ({navigation}: Props) => {
