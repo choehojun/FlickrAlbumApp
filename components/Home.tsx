@@ -1,9 +1,10 @@
-import React, {useCallback, useState} from 'react'
-import { Button } from 'react-native'
+import React from 'react'
+import {Button} from 'react-native'
 import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
 import {StackNavigationProp} from '@react-navigation/stack'
 import RootStackParamList from '../navigation/RootStackParamList'
+import {useHomeActions} from '../hooks/UseHomeActions'
 
 type HomeNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>
 
@@ -12,13 +13,11 @@ interface Props {
 }
 
 const Home = ({navigation}: Props) => {
-    const [title, setTitle] = useState('1')
-    const handlePress = useCallback(() => {
-        const titleToSecond = Number(title)
-        navigation.navigate('Slide', {
-            sec: titleToSecond
-        })
-    }, [title, navigation])
+    const {
+        title,
+        setTitle,
+        handlePress,
+    } = useHomeActions(navigation)
 
     return (
         <>
