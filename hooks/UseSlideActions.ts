@@ -12,16 +12,15 @@ export const useSlideActions = (sec: number) => {
     const [isMounted, setIsMounted] = useState(true)
     const [urlArray, setUrlArray] = useState<Array<string>>([])
     const [tempArray, setTempArray] = useState<Array<string>>([])
-    const pickerTime = String(delayMillis / 1000)
+    const pickerTime = delayMillis / 1000
     const {
         opacityForOddIndex,
         opacityForEvenIndex,
         fadeAnimation,
     } = useFadeAnimation(delayMillis)
 
-    const handleValueChange = useCallback((val: string) => {
-        const stringToNumberSecond = Number(val)
-        setDelayMillis(stringToNumberSecond * 1000)
+    const handleValueChange = useCallback((val: number) => {
+        setDelayMillis(val * 1000)
     }, [setDelayMillis])
 
     const startFetch = useCallback(() => {

@@ -61,7 +61,7 @@ const Slide = ({navigation, route}: Props) => {
                 </Animated.View>
             </ImageContainer>
             <InputContainer>
-                <TimePickerComponent selectedValue={pickerTime}
+                <TimePickerComponent selectedNumber={pickerTime}
                     onValueChange={handleValueChange}
                 />
             </InputContainer>

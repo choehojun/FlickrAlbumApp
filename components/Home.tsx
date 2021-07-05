@@ -27,7 +27,7 @@ const Home = ({navigation}: Props) => {
                 </AppName>
             </TextContainer>
             <InputContainer>
-                <TimePickerComponent selectedValue={pickerTime}
+                <TimePickerComponent selectedNumber={pickerTime}
                     onValueChange={setPickerTime}
                 />
                 <Button title="시작"

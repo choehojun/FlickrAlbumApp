@@ -1,9 +1,9 @@
 import { Picker } from '@react-native-picker/picker'
-import React from 'react'
+import React, {useCallback} from 'react'
 
 interface Props {
-    selectedValue: string
-    onValueChange: (val: string) => void
+    selectedNumber: number
+    onValueChange: (val: number) => void
 }
 
 const pickerItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => {
@@ -11,11 +11,18 @@ const pickerItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => {
 })
 
 
-const TimePickerComponent = ({selectedValue, onValueChange}: Props) => {
+const TimePickerComponent = ({selectedNumber, onValueChange}: Props) => {
+
+    const handleValueChange = useCallback((val: string) => {
+        onValueChange(Number(val))
+    }, [onValueChange])
+
+    const selectedValue = String(selectedNumber)
+
     return (
         <Picker style={{height: 200, width: 250}}
             selectedValue={selectedValue}
-            onValueChange={onValueChange}>
+            onValueChange={handleValueChange}>
             {pickerItems}
         </Picker>
     )
