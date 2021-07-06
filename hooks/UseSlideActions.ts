@@ -3,6 +3,11 @@ import {useFadeAnimation} from '../animation/hooks/UseFadeAnimation'
 
 export type FetchImageAPIType = (url: string) => Promise<Array<string>>
 
+const Constant = {
+    FETCH_SIZE: 20,
+    INDEX_FROM_LAST_STARTING_FETCH: 5,
+}
+
 export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, url: string) => {
     const [delayMillis, setDelayMillis] = useState(sec * 1000)
     const [fetchFlag, setFetchFlag] = useState(true)
@@ -40,12 +45,12 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
                 setEvenIdx(evenIdx + 2)
             }
             else {
-                if (oddIdx === 15) {
+                if (oddIdx === Constant.FETCH_SIZE - Constant.INDEX_FROM_LAST_STARTING_FETCH) {
                     setFetchFlag(true)
                     setOddIdx(oddIdx + 2)
                 }
-                else if (oddIdx === 19) {
-                    setUrlArray(urlArray.slice(20))
+                else if (oddIdx === Constant.FETCH_SIZE - 1) {
+                    setUrlArray(urlArray.slice(Constant.FETCH_SIZE))
                     setEvenIdx(0)
                     setOddIdx(1)
                 }
