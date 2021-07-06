@@ -23,7 +23,6 @@ const Slide = ({navigation, route}: Props) => {
         opacityForEvenIndex,
         idx,
         urlArray,
-        tempArray,
         handleValueChange,
     } = useSlideActions(sec)
 
@@ -53,7 +52,7 @@ const Slide = ({navigation, route}: Props) => {
                 >
                     <StyledImage
                         source={{
-                            uri: idx === 19 ? tempArray[0] : urlArray[idx + 1],
+                            uri: urlArray[idx + 1],
                             width: 300,
                             height: 300
                         }}

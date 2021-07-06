@@ -6,12 +6,10 @@ const FLICKR_LANDSCAPE_PORTRAIT_URL = 'https://api.flickr.com/services/feeds/pho
 
 export const useSlideActions = (sec: number) => {
     const [delayMillis, setDelayMillis] = useState(sec * 1000)
-    const [startFlag, setStartFlag] = useState(true)
-    const [fetchFlag, setFetchFlag] = useState(false)
+    const [fetchFlag, setFetchFlag] = useState(true)
     const [idx, setIdx] = useState(0)
     const [isMounted, setIsMounted] = useState(true)
     const [urlArray, setUrlArray] = useState<Array<string>>([])
-    const [tempArray, setTempArray] = useState<Array<string>>([])
     const pickerTime = delayMillis / 1000
     const {
         opacityForOddIndex,
@@ -28,22 +26,11 @@ export const useSlideActions = (sec: number) => {
             .then((items) => {
                 const imagArray = items
                 if (isMounted) {
-                    setUrlArray(imagArray)
-                    setStartFlag(false)
-                }
-            })
-    }, [isMounted, setUrlArray, setStartFlag, startFlag, urlArray])
-
-    const fetchToTemp = useCallback(() => {
-        fetchFromFlickrAPI(FLICKR_LANDSCAPE_PORTRAIT_URL)
-            .then((items) => {
-                const imagArray = items
-                if (isMounted) {
-                    setTempArray(imagArray)
+                    setUrlArray(urlArray.concat(imagArray))
                     setFetchFlag(false)
                 }
             })
-    }, [isMounted, setTempArray, setFetchFlag, fetchFlag, tempArray])
+    }, [isMounted, setUrlArray, setFetchFlag, fetchFlag, urlArray])
 
     const transitionToNextImage = useCallback(() => {
         if (isMounted) {
@@ -51,21 +38,18 @@ export const useSlideActions = (sec: number) => {
                 setFetchFlag(true)
                 setIdx(idx + 1)
             } else if (idx === 19) {
-                setUrlArray(tempArray)
+                setUrlArray(urlArray.slice(20))
                 setIdx(0)
             } else {
                 setIdx(idx + 1)
             }
         }
-    }, [isMounted, setFetchFlag, setIdx, setUrlArray, fetchFlag, idx, urlArray, tempArray])
+    }, [isMounted, setIdx, setUrlArray, idx, urlArray])
 
     useEffect(() => {
         setIsMounted(true)
-        if (startFlag) {
-            startFetch()
-        }
         if (fetchFlag) {
-            fetchToTemp()
+            startFetch()
         }
         fadeAnimation.start(() => {
             transitionToNextImage()
@@ -80,7 +64,6 @@ export const useSlideActions = (sec: number) => {
         opacityForEvenIndex,
         idx,
         urlArray,
-        tempArray,
         handleValueChange,
     }
 }
