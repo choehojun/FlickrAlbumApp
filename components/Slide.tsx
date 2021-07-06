@@ -6,6 +6,8 @@ import {StackNavigationProp} from '@react-navigation/stack'
 import RootStackParamList from '../navigation/RootStackParamList'
 import {RouteProp} from '@react-navigation/native'
 import {useSlideActions} from '../hooks/UseSlideActions'
+import {fetchFromFlickrAPI} from '../service/FetchImageAPI/apis/Flickr/FetchFromFlickrAPI'
+import {FLICKR_LANDSCAPE_PORTRAIT_URL} from '../service/FetchImageAPI/apis/Flickr/urls/FLICKR_LANDSCAPE_PORTRAIT_URL'
 
 type SlideNavigationProp = StackNavigationProp<RootStackParamList, 'Slide'>
 type SlideRouteProp = RouteProp<RootStackParamList, 'Slide'>
@@ -25,7 +27,7 @@ const Slide = ({navigation, route}: Props) => {
         oddIdx,
         urlArray,
         handleValueChange,
-    } = useSlideActions(sec)
+    } = useSlideActions(sec, fetchFromFlickrAPI, FLICKR_LANDSCAPE_PORTRAIT_URL)
 
     return(
         <>

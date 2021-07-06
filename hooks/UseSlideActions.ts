@@ -1,10 +1,9 @@
 import {useCallback, useEffect, useState} from 'react'
 import {useFadeAnimation} from '../animation/hooks/UseFadeAnimation'
-import {fetchFromFlickrAPI} from '../service/FetchFromFlickrAPI'
 
-const FLICKR_LANDSCAPE_PORTRAIT_URL = 'https://api.flickr.com/services/feeds/photos_public.gne?tags=landscape,portrait&tagmode=any&format=json&nojsoncallback=1'
+export type FetchImageAPIType = (url: string) => Promise<Array<string>>
 
-export const useSlideActions = (sec: number) => {
+export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, url: string) => {
     const [delayMillis, setDelayMillis] = useState(sec * 1000)
     const [fetchFlag, setFetchFlag] = useState(true)
     const [evenIdx, setEvenIdx] = useState(0)
@@ -25,7 +24,7 @@ export const useSlideActions = (sec: number) => {
     }, [setDelayMillis])
 
     const startFetch = useCallback(() => {
-        fetchFromFlickrAPI(FLICKR_LANDSCAPE_PORTRAIT_URL)
+        fetchImageAPI(url)
             .then((items) => {
                 const imagArray = items
                 if (isMounted) {

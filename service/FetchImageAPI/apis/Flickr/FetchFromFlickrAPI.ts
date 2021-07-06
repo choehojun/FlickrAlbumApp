@@ -1,4 +1,6 @@
-export const fetchFromFlickrAPI = (urlFlickr: string) => {
+import {FetchImageAPIType} from '../../../../hooks/UseSlideActions'
+
+export const fetchFromFlickrAPI: FetchImageAPIType = (urlFlickr) => {
     return fetch(urlFlickr)
         .then(response => {
             return response.json()
