@@ -1,11 +1,13 @@
 import {useCallback, useEffect, useState} from 'react'
 import {StackNavigationProp} from '@react-navigation/stack'
 import RootStackParamList from '../navigation/RootStackParamList'
+import {useIsFocused} from '@react-navigation/native'
 
 type HomeNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>
 
 export const useHomeActions = (navigation: HomeNavigationProp, sec: undefined | number) => {
     const [pickerTime, setPickerTime] = useState(1)
+    const isFocused = useIsFocused()
     const handlePress = useCallback(() => {
         navigation.navigate('Slide', {
             sec: pickerTime,
@@ -14,7 +16,7 @@ export const useHomeActions = (navigation: HomeNavigationProp, sec: undefined | 
 
     useEffect(() => {
         setPickerTime(sec ?? 1)
-    }, [sec, navigation.isFocused()])
+    }, [isFocused])
 
     return {
         pickerTime,
