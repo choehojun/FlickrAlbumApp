@@ -19,9 +19,10 @@ const Slide = ({navigation, route}: Props) => {
     const {sec} = route.params
     const {
         pickerTime,
-        opacityForOddIndex,
         opacityForEvenIndex,
-        idx,
+        opacityForOddIndex,
+        evenIdx,
+        oddIdx,
         urlArray,
         handleValueChange,
     } = useSlideActions(sec)
@@ -33,26 +34,26 @@ const Slide = ({navigation, route}: Props) => {
             </TextContainer>
             <ImageContainer>
                 <Animated.View style={{
-                    opacity: opacityForOddIndex,
-                    position: 'absolute'
-                }}
-                >
-                    <StyledImage
-                        source={{
-                            uri: urlArray[idx],
-                            width: 300,
-                            height: 300
-                        }}
-                    />
-                </Animated.View>
-                <Animated.View style={{
                     opacity: opacityForEvenIndex,
                     position: 'absolute'
                 }}
                 >
                     <StyledImage
                         source={{
-                            uri: urlArray[idx + 1],
+                            uri: urlArray[evenIdx],
+                            width: 300,
+                            height: 300
+                        }}
+                    />
+                </Animated.View>
+                <Animated.View style={{
+                    opacity: opacityForOddIndex,
+                    position: 'absolute'
+                }}
+                >
+                    <StyledImage
+                        source={{
+                            uri: urlArray[oddIdx],
                             width: 300,
                             height: 300
                         }}

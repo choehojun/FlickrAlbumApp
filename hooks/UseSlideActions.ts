@@ -7,14 +7,17 @@ const FLICKR_LANDSCAPE_PORTRAIT_URL = 'https://api.flickr.com/services/feeds/pho
 export const useSlideActions = (sec: number) => {
     const [delayMillis, setDelayMillis] = useState(sec * 1000)
     const [fetchFlag, setFetchFlag] = useState(true)
-    const [idx, setIdx] = useState(0)
+    const [evenIdx, setEvenIdx] = useState(0)
+    const [oddIdx, setOddIdx] = useState(1)
+    const [isEvenIndex, setIsEvenIndex] = useState(true)
     const [isMounted, setIsMounted] = useState(true)
     const [urlArray, setUrlArray] = useState<Array<string>>([])
     const pickerTime = delayMillis / 1000
     const {
-        opacityForOddIndex,
         opacityForEvenIndex,
-        fadeAnimation,
+        opacityForOddIndex,
+        evenIndexFadeAnimation,
+        oddIndexFadeAnimation,
     } = useFadeAnimation(delayMillis)
 
     const handleValueChange = useCallback((val: number) => {
@@ -34,35 +37,51 @@ export const useSlideActions = (sec: number) => {
 
     const transitionToNextImage = useCallback(() => {
         if (isMounted) {
-            if (idx === 15) {
-                setFetchFlag(true)
-                setIdx(idx + 1)
-            } else if (idx === 19) {
-                setUrlArray(urlArray.slice(20))
-                setIdx(0)
-            } else {
-                setIdx(idx + 1)
+            if (isEvenIndex) {
+                setEvenIdx(evenIdx + 2)
             }
+            else {
+                if (oddIdx === 15) {
+                    setFetchFlag(true)
+                    setOddIdx(oddIdx + 2)
+                }
+                else if (oddIdx === 19) {
+                    setUrlArray(urlArray.slice(20))
+                    setEvenIdx(0)
+                    setOddIdx(1)
+                }
+                else {
+                    setOddIdx(oddIdx + 2)
+                }
+            }
+            setIsEvenIndex(!isEvenIndex)
         }
-    }, [isMounted, setIdx, setUrlArray, idx, urlArray])
+    }, [isMounted, setIsEvenIndex, isEvenIndex, setEvenIdx, evenIdx, setOddIdx, oddIdx, setFetchFlag, fetchFlag, urlArray, setUrlArray])
 
     useEffect(() => {
         setIsMounted(true)
         if (fetchFlag) {
             startFetch()
         }
-        fadeAnimation.start(() => {
-            transitionToNextImage()
-        })
+        if (isEvenIndex) {
+            evenIndexFadeAnimation.start(() => {
+                transitionToNextImage()
+            })
+        } else {
+            oddIndexFadeAnimation.start(() => {
+                transitionToNextImage()
+            })
+        }
         return () => {
             setIsMounted(false)
         }
-    }, [idx])
+    }, [isEvenIndex])
     return {
         pickerTime,
-        opacityForOddIndex,
         opacityForEvenIndex,
-        idx,
+        opacityForOddIndex,
+        evenIdx,
+        oddIdx,
         urlArray,
         handleValueChange,
     }
