@@ -28,7 +28,7 @@ export const useFadeAnimation = (delayMillis: number) => {
             Animated.parallel([
                 oddIndexFadeOut,
                 evenIndexFadeIn,
-            ])
+            ]),
         ])
     }, [delayMillis, oddIndexFadeOut, evenIndexFadeIn])
 

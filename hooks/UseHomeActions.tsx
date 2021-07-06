@@ -8,7 +8,7 @@ export const useHomeActions = (navigation: HomeNavigationProp, sec: undefined | 
     const [pickerTime, setPickerTime] = useState(1)
     const handlePress = useCallback(() => {
         navigation.navigate('Slide', {
-            sec: pickerTime
+            sec: pickerTime,
         })
     }, [pickerTime, navigation])
 

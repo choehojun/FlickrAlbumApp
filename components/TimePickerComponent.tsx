@@ -1,4 +1,4 @@
-import { Picker } from '@react-native-picker/picker'
+import {Picker} from '@react-native-picker/picker'
 import React, {useCallback} from 'react'
 
 interface Props {
@@ -20,9 +20,11 @@ const TimePickerComponent = ({selectedNumber, onValueChange}: Props) => {
     const selectedValue = String(selectedNumber)
 
     return (
-        <Picker style={{height: 200, width: 250}}
+        <Picker
+            style={{height: 200, width: 250}}
             selectedValue={selectedValue}
-            onValueChange={handleValueChange}>
+            onValueChange={handleValueChange}
+        >
             {pickerItems}
         </Picker>
     )

@@ -32,10 +32,12 @@ const Home = ({navigation, route}: Props) => {
                 </AppName>
             </TextContainer>
             <InputContainer>
-                <TimePickerComponent selectedNumber={pickerTime}
+                <TimePickerComponent
+                    selectedNumber={pickerTime}
                     onValueChange={setPickerTime}
                 />
-                <Button title="시작"
+                <Button
+                    title='시작'
                     onPress={handlePress}
                 />
             </InputContainer>

@@ -31,50 +31,54 @@ const Slide = ({navigation, route}: Props) => {
 
     const handlePress = useCallback(() => {
         navigation.navigate('Home', {
-            sec: pickerTime
+            sec: pickerTime,
         })
     }, [navigation, pickerTime])
 
-    return(
+    return (
         <>
             <TextContainer>
                 <StyledText>현재 시간: {pickerTime}초</StyledText>
             </TextContainer>
             <ImageContainer>
-                <Animated.View style={{
-                    opacity: opacityForEvenIndex,
-                    position: 'absolute'
-                }}
+                <Animated.View
+                    style={{
+                        opacity: opacityForEvenIndex,
+                        position: 'absolute',
+                    }}
                 >
                     <StyledImage
                         source={{
                             uri: urlArray[evenIdx],
                             width: 300,
-                            height: 300
+                            height: 300,
                         }}
                     />
                 </Animated.View>
-                <Animated.View style={{
-                    opacity: opacityForOddIndex,
-                    position: 'absolute'
-                }}
+                <Animated.View
+                    style={{
+                        opacity: opacityForOddIndex,
+                        position: 'absolute',
+                    }}
                 >
                     <StyledImage
                         source={{
                             uri: urlArray[oddIdx],
                             width: 300,
-                            height: 300
+                            height: 300,
                         }}
                     />
                 </Animated.View>
             </ImageContainer>
             <InputContainer>
-                <TimePickerComponent selectedNumber={pickerTime}
+                <TimePickerComponent
+                    selectedNumber={pickerTime}
                     onValueChange={handleValueChange}
                 />
             </InputContainer>
             <ButtonContainer>
-                <Button title="시작 화면으로"
+                <Button
+                    title='시작 화면으로'
                     onPress={handlePress}
                 />
             </ButtonContainer>

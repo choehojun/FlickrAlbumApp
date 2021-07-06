@@ -43,18 +43,15 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
         if (isMounted) {
             if (isEvenIndexShown) {
                 setEvenIdx(evenIdx + 2)
-            }
-            else {
+            } else {
                 if (oddIdx === Constant.FETCH_SIZE - Constant.INDEX_FROM_LAST_STARTING_FETCH) {
                     setFetchFlag(true)
                     setOddIdx(oddIdx + 2)
-                }
-                else if (oddIdx === Constant.FETCH_SIZE - 1) {
+                } else if (oddIdx === Constant.FETCH_SIZE - 1) {
                     setUrlArray(urlArray.slice(Constant.FETCH_SIZE))
                     setEvenIdx(0)
                     setOddIdx(1)
-                }
-                else {
+                } else {
                     setOddIdx(oddIdx + 2)
                 }
             }

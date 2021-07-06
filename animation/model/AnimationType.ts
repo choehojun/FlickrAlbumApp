@@ -10,5 +10,5 @@ export const createAnimation = (animationType: AnimationType, value: Animated.Va
         toValue: animationType,
         duration: delay,
         useNativeDriver: true,
-    }
+    },
 )
