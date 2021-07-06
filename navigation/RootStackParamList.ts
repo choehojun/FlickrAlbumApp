@@ -1,5 +1,5 @@
 type RootStackParamList = {
-    Home: undefined
+    Home: { sec: number }
     Slide: { sec: number }
 }
 

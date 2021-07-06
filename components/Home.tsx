@@ -4,26 +4,31 @@ import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
 import {StackNavigationProp} from '@react-navigation/stack'
 import RootStackParamList from '../navigation/RootStackParamList'
+import {RouteProp} from '@react-navigation/native'
 import {useHomeActions} from '../hooks/UseHomeActions'
 
 type HomeNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>
+type HomeRouteProp = RouteProp<RootStackParamList, 'Home'>
 
 interface Props {
     navigation: HomeNavigationProp
+    route: HomeRouteProp
 }
 
-const Home = ({navigation}: Props) => {
+const Home = ({navigation, route}: Props) => {
+    const sec: number | undefined = route.params?.sec
+
     const {
         pickerTime,
         setPickerTime,
         handlePress,
-    } = useHomeActions(navigation)
+    } = useHomeActions(navigation, sec)
 
     return (
         <>
             <TextContainer>
                 <AppName>
-          FlickrAlbumApp
+                    FlickrAlbumApp
                 </AppName>
             </TextContainer>
             <InputContainer>

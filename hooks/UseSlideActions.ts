@@ -8,7 +8,7 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
     const [fetchFlag, setFetchFlag] = useState(true)
     const [evenIdx, setEvenIdx] = useState(0)
     const [oddIdx, setOddIdx] = useState(1)
-    const [isEvenIndex, setIsEvenIndex] = useState(true)
+    const [isEvenIndexShown, setIsEvenIndexShown] = useState(true)
     const [isMounted, setIsMounted] = useState(true)
     const [urlArray, setUrlArray] = useState<Array<string>>([])
     const pickerTime = delayMillis / 1000
@@ -36,7 +36,7 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
 
     const transitionToNextImage = useCallback(() => {
         if (isMounted) {
-            if (isEvenIndex) {
+            if (isEvenIndexShown) {
                 setEvenIdx(evenIdx + 2)
             }
             else {
@@ -53,16 +53,16 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
                     setOddIdx(oddIdx + 2)
                 }
             }
-            setIsEvenIndex(!isEvenIndex)
+            setIsEvenIndexShown(!isEvenIndexShown)
         }
-    }, [isMounted, setIsEvenIndex, isEvenIndex, setEvenIdx, evenIdx, setOddIdx, oddIdx, setFetchFlag, fetchFlag, urlArray, setUrlArray])
+    }, [isMounted, setIsEvenIndexShown, isEvenIndexShown, setEvenIdx, evenIdx, setOddIdx, oddIdx, setFetchFlag, fetchFlag, urlArray, setUrlArray])
 
     useEffect(() => {
         setIsMounted(true)
         if (fetchFlag) {
             startFetch()
         }
-        if (isEvenIndex) {
+        if (isEvenIndexShown) {
             evenIndexFadeAnimation.start(() => {
                 transitionToNextImage()
             })
@@ -74,7 +74,7 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
         return () => {
             setIsMounted(false)
         }
-    }, [isEvenIndex])
+    }, [isEvenIndexShown])
     return {
         pickerTime,
         opacityForEvenIndex,

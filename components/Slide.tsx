@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import {Animated, Button} from 'react-native'
 import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
@@ -28,6 +28,12 @@ const Slide = ({navigation, route}: Props) => {
         urlArray,
         handleValueChange,
     } = useSlideActions(sec, fetchFromFlickrAPI, FLICKR_LANDSCAPE_PORTRAIT_URL)
+
+    const handlePress = useCallback(() => {
+        navigation.navigate('Home', {
+            sec: pickerTime
+        })
+    }, [navigation, pickerTime])
 
     return(
         <>
@@ -69,7 +75,7 @@ const Slide = ({navigation, route}: Props) => {
             </InputContainer>
             <ButtonContainer>
                 <Button title="시작 화면으로"
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={handlePress}
                 />
             </ButtonContainer>
         </>
