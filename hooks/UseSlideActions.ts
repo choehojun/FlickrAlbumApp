@@ -43,24 +43,24 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
         if (isMounted) {
             if (isEvenIndexShown) {
                 setEvenIdx(evenIdx + 2)
+                setIsEvenIndexShown(!isEvenIndexShown)
+                return
+            }
+            if (oddIdx === Constant.FETCH_SIZE - Constant.INDEX_FROM_LAST_STARTING_FETCH) {
+                setFetchFlag(true)
+                setOddIdx(oddIdx + 2)
+            } else if (oddIdx === Constant.FETCH_SIZE - 1) {
+                setUrlArray(urlArray.slice(Constant.FETCH_SIZE))
+                setEvenIdx(0)
+                setOddIdx(1)
             } else {
-                if (oddIdx === Constant.FETCH_SIZE - Constant.INDEX_FROM_LAST_STARTING_FETCH) {
-                    setFetchFlag(true)
-                    setOddIdx(oddIdx + 2)
-                } else if (oddIdx === Constant.FETCH_SIZE - 1) {
-                    setUrlArray(urlArray.slice(Constant.FETCH_SIZE))
-                    setEvenIdx(0)
-                    setOddIdx(1)
-                } else {
-                    setOddIdx(oddIdx + 2)
-                }
+                setOddIdx(oddIdx + 2)
             }
             setIsEvenIndexShown(!isEvenIndexShown)
         }
     }, [isMounted, setIsEvenIndexShown, isEvenIndexShown, setEvenIdx, evenIdx, setOddIdx, oddIdx, setFetchFlag, fetchFlag, urlArray, setUrlArray])
 
     useEffect(() => {
-        setIsMounted(true)
         if (fetchFlag) {
             startFetch()
         }
@@ -73,10 +73,15 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
                 transitionToNextImage()
             })
         }
+    }, [isEvenIndexShown])
+
+    useEffect(() => {
+        setIsMounted(true)
         return () => {
             setIsMounted(false)
         }
-    }, [isEvenIndexShown])
+    }, [])
+
     return {
         pickerTime,
         opacityForEvenIndex,
