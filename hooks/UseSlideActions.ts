@@ -33,32 +33,32 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
             .then((items) => {
                 const imagArray = items
                 if (isMounted) {
-                    setUrlArray(urlArray.concat(imagArray))
+                    setUrlArray(prev => prev.concat(imagArray))
                     setFetchFlag(false)
                 }
             })
-    }, [isMounted, setUrlArray, setFetchFlag, fetchFlag, urlArray])
+    }, [isMounted, setUrlArray, setFetchFlag])
 
     const transitionToNextImage = useCallback(() => {
         if (isMounted) {
             if (isEvenIndexShown) {
-                setEvenIdx(evenIdx + 2)
-                setIsEvenIndexShown(!isEvenIndexShown)
+                setEvenIdx(prev => prev + 2)
+                setIsEvenIndexShown(prev => !prev)
                 return
             }
             if (oddIdx === Constant.FETCH_SIZE - Constant.INDEX_FROM_LAST_STARTING_FETCH) {
                 setFetchFlag(true)
-                setOddIdx(oddIdx + 2)
+                setOddIdx(prev => prev + 2)
             } else if (oddIdx === Constant.FETCH_SIZE - 1) {
-                setUrlArray(urlArray.slice(Constant.FETCH_SIZE))
+                setUrlArray(prev => prev.slice(Constant.FETCH_SIZE))
                 setEvenIdx(0)
                 setOddIdx(1)
             } else {
-                setOddIdx(oddIdx + 2)
+                setOddIdx(prev => prev + 2)
             }
-            setIsEvenIndexShown(!isEvenIndexShown)
+            setIsEvenIndexShown(prev => !prev)
         }
-    }, [isMounted, setIsEvenIndexShown, isEvenIndexShown, setEvenIdx, evenIdx, setOddIdx, oddIdx, setFetchFlag, fetchFlag, urlArray, setUrlArray])
+    }, [isMounted, setIsEvenIndexShown, isEvenIndexShown, setEvenIdx, setOddIdx, setFetchFlag, setUrlArray])
 
     useEffect(() => {
         if (fetchFlag) {
