@@ -1,6 +1,6 @@
 type RootStackParamList = {
-    Home: { sec: number }
-    Slide: { sec: number }
+    Home: { second: number }
+    Slide: { second: number }
 }
 
 export default RootStackParamList

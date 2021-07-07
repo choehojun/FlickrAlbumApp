@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 import {Button} from 'react-native'
 import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
@@ -16,13 +16,18 @@ interface Props {
 }
 
 const Home = ({navigation, route}: Props) => {
-    const sec: number | undefined = route.params?.sec
+    const second = route.params?.second
 
     const {
         pickerTime,
         setPickerTime,
-        handlePress,
-    } = useHomeActions(navigation, sec)
+    } = useHomeActions(second)
+
+    const handlePress = useCallback(() => {
+        navigation.navigate('Slide', {
+            second: pickerTime,
+        })
+    }, [pickerTime, navigation])
 
     return (
         <>
@@ -33,7 +38,7 @@ const Home = ({navigation, route}: Props) => {
             </TextContainer>
             <InputContainer>
                 <TimePickerComponent
-                    selectedNumber={pickerTime}
+                    selectedTime={pickerTime}
                     onValueChange={setPickerTime}
                 />
                 <Button

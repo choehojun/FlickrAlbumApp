@@ -20,8 +20,8 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
     const {
         opacityForEvenIndex,
         opacityForOddIndex,
-        evenIndexFadeAnimation,
-        oddIndexFadeAnimation,
+        evenIndexShownAndCrossFade,
+        oddIndexShownAndCrossFade,
     } = useFadeAnimation(delayMillis)
 
     const handleValueChange = useCallback((val: number) => {
@@ -65,11 +65,11 @@ export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, u
             startFetch()
         }
         if (isEvenIndexShown) {
-            evenIndexFadeAnimation.start(() => {
+            evenIndexShownAndCrossFade.start(() => {
                 transitionToNextImage()
             })
         } else {
-            oddIndexFadeAnimation.start(() => {
+            oddIndexShownAndCrossFade.start(() => {
                 transitionToNextImage()
             })
         }

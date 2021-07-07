@@ -1,14 +1,14 @@
 import {Animated} from 'react-native'
 
 export enum AnimationType {
-    fadeOut,
-    fadeIn,
+    fadeOut = 0,
+    fadeIn = 1,
 }
 
-export const createAnimation = (animationType: AnimationType, value: Animated.Value, delay: number) => Animated.timing(
+export const createAnimation = (animationType: AnimationType, value: Animated.Value, duration: number) => Animated.timing(
     value, {
         toValue: animationType,
-        duration: delay,
+        duration: duration,
         useNativeDriver: true,
     },
 )
