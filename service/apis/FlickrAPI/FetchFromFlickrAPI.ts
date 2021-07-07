@@ -1,4 +1,4 @@
-import {FetchImageAPIType} from '../hooks/UseSlideActions'
+import {FetchImageAPIType} from '../../../model/FetchImageAPIType'
 
 export const fetchFromFlickrAPI: FetchImageAPIType = (urlFlickr) => {
     return fetch(urlFlickr)

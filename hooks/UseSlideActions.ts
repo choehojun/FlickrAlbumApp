@@ -1,7 +1,6 @@
 import {useCallback, useEffect, useState} from 'react'
 import {useFadeAnimation} from '../animation/hooks/UseFadeAnimation'
-
-export type FetchImageAPIType = (url: string) => Promise<Array<string>>
+import {FetchImageAPIType} from '../model/FetchImageAPIType'
 
 const Constant = {
     FETCH_SIZE: 20,

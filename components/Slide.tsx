@@ -6,7 +6,7 @@ import {StackNavigationProp} from '@react-navigation/stack'
 import RootStackParamList from '../navigation/RootStackParamList'
 import {RouteProp} from '@react-navigation/native'
 import {useSlideActions} from '../hooks/UseSlideActions'
-import {fetchFromFlickrAPI} from '../model/FetchFromFlickrAPI'
+import {fetchFromFlickrAPI} from '../service/apis/FlickrAPI/FetchFromFlickrAPI'
 import {FlickrURL} from '../assets/urls/FlickrURL'
 
 type SlideNavigationProp = StackNavigationProp<RootStackParamList, 'Slide'>
