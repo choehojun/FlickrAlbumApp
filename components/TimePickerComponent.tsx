@@ -1,13 +1,18 @@
 import {Picker} from '@react-native-picker/picker'
 import React, {useCallback} from 'react'
+import _ from 'lodash'
 
 interface Props {
     selectedTime: number
     onValueChange: (val: number) => void
 }
 
-const pickerItems = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => {
-    return <Picker.Item key={`${value}`} label={`${value}초`} value={`${value}`}/>
+const pickerItems = _.range(1, 11).map((value) => {
+    return <Picker.Item
+        key={`${value}`}
+        label={`${value}초`}
+        value={`${value}`}
+    />
 })
 
 
