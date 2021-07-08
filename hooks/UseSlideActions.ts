@@ -7,8 +7,8 @@ const Constant = {
     INDEX_FROM_LAST_STARTING_FETCH: 5,
 }
 
-export const useSlideActions = (sec: number, fetchImageAPI: FetchImageAPIType, url: string) => {
-    const [delayMillis, setDelayMillis] = useState(sec * 1000)
+export const useSlideActions = (second: number, fetchImageAPI: FetchImageAPIType, url: string) => {
+    const [delayMillis, setDelayMillis] = useState(second * 1000)
     const [fetchFlag, setFetchFlag] = useState(true)
     const [evenIdx, setEvenIdx] = useState(0)
     const [oddIdx, setOddIdx] = useState(1)
