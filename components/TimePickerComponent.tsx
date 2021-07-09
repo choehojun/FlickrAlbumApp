@@ -7,22 +7,26 @@ interface Props {
     onValueChange: (val: number) => void
 }
 
-const pickerItems = _.range(1, 11).map((value) => {
-    return <Picker.Item
-        key={`${value}`}
-        label={`${value}초`}
-        value={`${value}`}
-    />
-})
+const PICKER_MAX_SECOND = 10
 
+const resolvePickerItems = (itemCount: number) => {
+    return _.range(1, itemCount + 1).map((value) => {
+        return <Picker.Item
+            key={`${value}`}
+            label={`${value}초`}
+            value={`${value}`}
+        />
+    })
+}
 
 const TimePickerComponent = ({selectedTime, onValueChange}: Props) => {
-
     const handleValueChange = useCallback((val: string) => {
         onValueChange(Number(val))
     }, [onValueChange])
 
     const selectedValue = String(selectedTime)
+
+    const pickerItems = resolvePickerItems(PICKER_MAX_SECOND)
 
     return (
         <Picker

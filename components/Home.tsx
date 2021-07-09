@@ -1,11 +1,10 @@
-import React, {useCallback} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {Button} from 'react-native'
 import TimePickerComponent from './TimePickerComponent'
 import styled from '@emotion/native'
 import {StackNavigationProp} from '@react-navigation/stack'
 import RootStackParamList from '../navigation/RootStackParamList'
-import {RouteProp} from '@react-navigation/native'
-import {useHomeActions} from '../hooks/UseHomeActions'
+import {RouteProp, useIsFocused} from '@react-navigation/native'
 
 type HomeNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>
 type HomeRouteProp = RouteProp<RootStackParamList, 'Home'>
@@ -15,19 +14,23 @@ interface Props {
     route: HomeRouteProp
 }
 
-const Home = ({navigation, route}: Props) => {
-    const second = route.params?.second
+const DEFAULT_SECOND = 1
 
-    const {
-        pickerTime,
-        setPickerTime,
-    } = useHomeActions(second)
+const Home = ({navigation, route}: Props) => {
+    const second = route.params?.second ?? DEFAULT_SECOND
+
+    const [pickerTime, setPickerTime] = useState(second)
+    const isFocused = useIsFocused()
 
     const handlePress = useCallback(() => {
         navigation.navigate('Slide', {
             second: pickerTime,
         })
     }, [pickerTime, navigation])
+
+    useEffect(() => {
+        setPickerTime(second)
+    }, [isFocused])
 
     return (
         <>

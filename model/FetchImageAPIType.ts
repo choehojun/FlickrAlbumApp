@@ -1,1 +1,1 @@
-export type FetchImageAPIType = (url: string) => Promise<Array<string>>
+export type FetchImageAPIType = () => Promise<Array<string>>

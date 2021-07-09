@@ -7,7 +7,7 @@ const Constant = {
     INDEX_FROM_LAST_STARTING_FETCH: 5,
 }
 
-export const useSlideActions = (second: number, fetchImageAPI: FetchImageAPIType, url: string) => {
+export const useSlideActions = (second: number, fetchImageAPI: FetchImageAPIType) => {
     const [delayMillis, setDelayMillis] = useState(second * 1000)
     const [fetchFlag, setFetchFlag] = useState(true)
     const [evenIdx, setEvenIdx] = useState(0)
@@ -28,7 +28,7 @@ export const useSlideActions = (second: number, fetchImageAPI: FetchImageAPIType
     }, [setDelayMillis])
 
     const startFetch = useCallback(() => {
-        fetchImageAPI(url)
+        fetchImageAPI()
             .then((items) => {
                 const imagArray = items
                 if (isMounted) {
@@ -83,11 +83,10 @@ export const useSlideActions = (second: number, fetchImageAPI: FetchImageAPIType
 
     return {
         pickerTime,
-        opacityForEvenIndex,
-        opacityForOddIndex,
-        evenIdx,
-        oddIdx,
-        urlArray,
+        opacityForEvenImage: opacityForEvenIndex,
+        opacityForOddImage: opacityForOddIndex,
+        evenImage: urlArray[evenIdx],
+        oddImage: urlArray[oddIdx],
         handleValueChange,
     }
 }

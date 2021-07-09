@@ -6,8 +6,7 @@ import {StackNavigationProp} from '@react-navigation/stack'
 import RootStackParamList from '../navigation/RootStackParamList'
 import {RouteProp} from '@react-navigation/native'
 import {useSlideActions} from '../hooks/UseSlideActions'
-import {fetchFromFlickrAPI} from '../service/apis/FlickrAPI/FetchFromFlickrAPI'
-import {FlickrURL} from '../assets/urls/FlickrURL'
+import {fetchImageAPI} from '../service/apis/FetchImageAPI'
 
 type SlideNavigationProp = StackNavigationProp<RootStackParamList, 'Slide'>
 type SlideRouteProp = RouteProp<RootStackParamList, 'Slide'>
@@ -21,13 +20,12 @@ const Slide = ({navigation, route}: Props) => {
     const {second} = route.params
     const {
         pickerTime,
-        opacityForEvenIndex,
-        opacityForOddIndex,
-        evenIdx,
-        oddIdx,
-        urlArray,
+        opacityForEvenImage,
+        opacityForOddImage,
+        evenImage,
+        oddImage,
         handleValueChange,
-    } = useSlideActions(second, fetchFromFlickrAPI, FlickrURL.FLICKR_LANDSCAPE_PORTRAIT_URL)
+    } = useSlideActions(second, fetchImageAPI)
 
     const handlePress = useCallback(() => {
         navigation.navigate('Home', {
@@ -43,13 +41,13 @@ const Slide = ({navigation, route}: Props) => {
             <ImageContainer>
                 <Animated.View
                     style={{
-                        opacity: opacityForEvenIndex,
+                        opacity: opacityForEvenImage,
                         position: 'absolute',
                     }}
                 >
                     <StyledImage
                         source={{
-                            uri: urlArray[evenIdx],
+                            uri: evenImage,
                             width: 300,
                             height: 300,
                         }}
@@ -57,13 +55,13 @@ const Slide = ({navigation, route}: Props) => {
                 </Animated.View>
                 <Animated.View
                     style={{
-                        opacity: opacityForOddIndex,
+                        opacity: opacityForOddImage,
                         position: 'absolute',
                     }}
                 >
                     <StyledImage
                         source={{
-                            uri: urlArray[oddIdx],
+                            uri: oddImage,
                             width: 300,
                             height: 300,
                         }}
