@@ -5,16 +5,12 @@
 # How to Build
 ## For Android
 1. Android Studio 설치
-2. ~/.bash_profile에 Android 실행 경로 추가
+2. 쉘 환경에 따라서 ~/.bash_profile 또는 ~/.zshrc에 Android 실행 경로 추가
 ```
 export ANDROID_SDK_ROOT="/Users/username/Library/Android/sdk
 export PATH="$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/tools:$PATH
 ```
-3. 터미널에서 source 설정
-```
-source .bash_profile
-```
-4. 작업하고 있는 디렉토리에 들어가서 실행 명령어 입력
+3. 작업하고 있는 디렉토리에 들어가서 실행 명령어 입력
 ```
 react-native run-android
 ```
